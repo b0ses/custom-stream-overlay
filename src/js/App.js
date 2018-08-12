@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 
-const kGlobalConstants = require('Settings').default;
+const kGlobalConstants = require('./Settings').default;
 
 class App extends Component {
   constructor() {
@@ -14,7 +14,10 @@ class App extends Component {
   componentDidMount() {
     const { endpoint } = this.state;
     const socket = socketIOClient(endpoint);
-    socket.on("FromAPI", data => this.setState({ response: data['message'] }));
+    socket.on("FromAPI", data => this.updateMessage(data['message']));
+  }
+  updateMessage(message) {
+    this.setState({ response: message });
   }
   render() {
     const { response } = this.state;
