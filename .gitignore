@@ -3,3 +3,5 @@ node_modules
 .idea
 *.pyc
 .*pytest_cache
+coverage
+*.DS_Store
