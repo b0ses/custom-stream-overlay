@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import socketIOClient from "socket.io-client";
+import React, { Component } from 'react';
+import socketIOClient from 'socket.io-client';
 
 const kGlobalConstants = require('./Settings').default;
 
@@ -8,26 +8,31 @@ class App extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: "http://" + kGlobalConstants.API_HOST + ":" + kGlobalConstants.API_PORT
+      endpoint: `http://${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}`
     };
   }
+
   componentDidMount() {
     const { endpoint } = this.state;
     const socket = socketIOClient(endpoint);
-    socket.on("FromAPI", data => this.updateMessage(data['message']));
+    socket.on('FromAPI', data => this.updateMessage(data.message));
   }
+
   updateMessage(message) {
     this.setState({ response: message });
   }
+
   render() {
     const { response } = this.state;
     return (
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: 'center' }}>
         {response
-          ? <p>
+          ? (
+            <p>
               {response}
             </p>
-          : <p></p>}
+          )
+          : <p />}
       </div>
     );
   }

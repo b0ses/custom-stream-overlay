@@ -1,18 +1,16 @@
-var addTwoNumbers = require('../helper');
+const addTwoNumbers = require('../helper');
 
-describe('addTwoNumbers()', function () {
-  it('should add two numbers', function () {
-    
+describe('addTwoNumbers()', () => {
+  it('should add two numbers', () => {
     // 1. ARRANGE
-    var x = 5;
-    var y = 1;
-    var sum1 = x + y;
+    const x = 5;
+    const y = 1;
+    const sum1 = x + y;
 
     // 2. ACT
-    var sum2 = addTwoNumbers(x, y);
+    const sum2 = addTwoNumbers(x, y);
 
     // 3. ASSERT
     expect(sum2).toEqual(sum1);
-
   });
 });
