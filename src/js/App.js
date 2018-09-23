@@ -8,7 +8,7 @@ class App extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: `http://${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}`
+      endpoint: `${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}`
     };
   }
 
