@@ -22,8 +22,8 @@ class App extends Component {
 
   updateMessage(message, sound) {
     this.setState({
-      message: message,
-      sound: sound
+      message,
+      sound
     });
   }
 
@@ -32,23 +32,24 @@ class App extends Component {
     const { message } = this.state;
     return (
       <div style={{ textAlign: 'center' }}>
-      <p>
-        { message }
-      </p>
-      <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" title='bypass-sound'>
-      { sound
-      ? (
-        <Sound
-          url={ sound }
-          playStatus={Sound.status.PLAYING}
-          volume={100}
-          playFromPosition={0 /* in milliseconds */}
-          onLoading={this.handleSongLoading}
-          onPlaying={this.handleSongPlaying}
-          onFinishedPlaying={this.handleSongFinishedPlaying}
-        />
-      ) : <br />}
-      </iframe>
+        <p>
+          { message }
+        </p>
+        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" title="bypass-sound">
+          { sound
+            ? (
+              <Sound
+                url={sound}
+                playStatus={Sound.status.PLAYING}
+                volume={100}
+                playFromPosition={0 /* in milliseconds */}
+                onLoading={this.handleSongLoading}
+                onPlaying={this.handleSongPlaying}
+                onFinishedPlaying={this.handleSongFinishedPlaying}
+              />
+            ) : <br />
+          }
+        </iframe>
       </div>
     );
   }
