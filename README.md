@@ -19,5 +19,6 @@ Also modify [package.json](package.json) to setup where you want this server to 
 
 ##### Running
 ```
-      npm start
+    # Note: when running locally, run as sudo for that port 80 access 
+    npm start
 ```
