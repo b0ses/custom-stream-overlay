@@ -7,3 +7,17 @@ body {
 iframe {
   border: 0;
 }
+
+.fade {
+  transition: visibility 1s linear, opacity 1s linear;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
