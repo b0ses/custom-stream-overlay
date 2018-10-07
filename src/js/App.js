@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       endpoint: `${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}`,
       message: '',
+      classes: 'hidden',
       sound: ''
     };
   }
@@ -17,22 +18,39 @@ class App extends Component {
   componentDidMount() {
     const { endpoint } = this.state;
     const socket = socketIOClient(endpoint);
-    socket.on('FromAPI', data => this.updateMessage(data.message, data.sound));
+    socket.on('FromAPI', data => this.updateMessage(data.message, data.sound, data.duration, data.effect));
   }
 
-  updateMessage(message, sound) {
+  updateMessage(message, sound, duration, effect) {
+    // Load effect before showing
+    this.setState({
+      classes: effect ? `hidden ${effect}` : 'hidden'
+    });
+    // Show it
     this.setState({
       message,
+      classes: effect ? `visible  ${effect}` : 'visible',
       sound
     });
+
+    // Hide it after [duration] milliseconds
+    const scopedThis = this;
+    setTimeout(() => {
+      scopedThis.setState({
+        message,
+        classes: effect ? `hidden ${effect}` : 'hidden',
+        sound: ''
+      });
+    }, duration || 3000);
   }
 
   render() {
-    const { sound } = this.state;
     const { message } = this.state;
+    const { classes } = this.state;
+    const { sound } = this.state;
     return (
       <div style={{ textAlign: 'center' }}>
-        <p>
+        <p id="text" className={classes}>
           { message }
         </p>
         <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" title="bypass-sound">
