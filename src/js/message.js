@@ -13,7 +13,7 @@ class Message extends Component {
   }
 
   render() {
-    const { classes } = this.generateClasses();
+    const classes = this.generateClasses();
     const { content } = this.props;
     return (
       <p id="text" className={classes} style={{ textAlign: 'center' }}>
