@@ -24,13 +24,13 @@ class Alert extends Component {
 }
 
 Alert.propTypes = {
-  content: PropTypes.string,
+  text: PropTypes.string,
   visibility: PropTypes.string,
   effect: PropTypes.string
 };
 
 Alert.defaultProps = {
-  content: '',
+  text: '',
   visibility: 'hidden',
   effect: ''
 };
