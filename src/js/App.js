@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 
 import Soundbite from './Soundbite';
-import Message from './Message';
+import Alert from './Alert';
 
 const kGlobalConstants = require('./Settings').default;
 
@@ -11,7 +11,7 @@ class App extends Component {
     super();
     this.state = {
       endpoint: `${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}`,
-      message: '',
+      text: '',
       visibility: 'hidden',
       effect: '',
       sound: ''
@@ -21,14 +21,14 @@ class App extends Component {
   componentDidMount() {
     const { endpoint } = this.state;
     const socket = socketIOClient(endpoint);
-    socket.on('FromAPI', data => this.displayMessage(data.message, data.sound, data.duration, data.effect));
+    socket.on('FromAPI', data => this.displayAlert(data.text, data.sound, data.duration, data.effect));
   }
 
-  displayMessage(message, sound, duration, effect) {
-    // Play sound and render hidden message with css effect
+  displayAlert(text, sound, duration, effect) {
+    // Play sound and render hidden text with css effect
     this.setState({ sound, effect }, () => {
-      // Show message, sound won't repeat
-      this.setState({ message, visibility: 'visible', sound: '' }, () => {
+      // Show text, sound won't repeat
+      this.setState({ text, visibility: 'visible', sound: '' }, () => {
         // Hide it after [duration] milliseconds
         const scopedThis = this;
         setTimeout(() => {
@@ -41,13 +41,13 @@ class App extends Component {
   }
 
   render() {
-    const { message } = this.state;
+    const { text } = this.state;
     const { visibility } = this.state;
     const { effect } = this.state;
     const { sound } = this.state;
     return (
       <div>
-        <Message content={message} visibility={visibility} effect={effect} />
+        <Alert text={text} visibility={visibility} effect={effect} />
         <Soundbite url={sound} />
       </div>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Message extends Component {
+class Alert extends Component {
   generateClasses() {
     const { visibility } = this.props;
     const { effect } = this.props;
@@ -14,25 +14,25 @@ class Message extends Component {
 
   render() {
     const classes = this.generateClasses();
-    const { content } = this.props;
+    const { text } = this.props;
     return (
       <p id="text" className={classes} style={{ textAlign: 'center' }}>
-        { content }
+        { text }
       </p>
     );
   }
 }
 
-Message.propTypes = {
-  content: PropTypes.string,
+Alert.propTypes = {
+  text: PropTypes.string,
   visibility: PropTypes.string,
   effect: PropTypes.string
 };
 
-Message.defaultProps = {
-  content: '',
+Alert.defaultProps = {
+  text: '',
   visibility: 'hidden',
   effect: ''
 };
 
-export default Message;
+export default Alert;
