@@ -14,8 +14,11 @@ class App extends Component {
       text: '',
       visibility: 'hidden',
       effect: '',
-      sound: ''
+      sound: '',
+      clicked: false
     };
+
+    this.start = this.start.bind(this);
   }
 
   componentDidMount() {
@@ -40,16 +43,33 @@ class App extends Component {
     });
   }
 
+  start(e) {
+    e.preventDefault();
+    console.log(e);
+    this.setState({
+      clicked: true
+    });
+  }
+
   render() {
     const { text } = this.state;
     const { visibility } = this.state;
     const { effect } = this.state;
     const { sound } = this.state;
+    const { clicked } = this.state;
+
+    if (clicked) {
+      return (
+        <div>
+          <Alert text={text} visibility={visibility} effect={effect} />
+          <Soundbite url={sound} />
+        </div>
+      );
+    }
     return (
-      <div>
-        <Alert text={text} visibility={visibility} effect={effect} />
-        <Soundbite url={sound} />
-      </div>
+      <button type="button" onClick={this.start}>
+        Click me to start
+      </button>
     );
   }
 }
