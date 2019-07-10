@@ -21,12 +21,6 @@ class App extends Component {
     this.start = this.start.bind(this);
   }
 
-  componentDidMount() {
-    const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
-    socket.on('FromAPI', data => this.displayAlert(data.text, data.sound, data.duration, data.effect));
-  }
-
   displayAlert(text, sound, duration, effect) {
     // Play sound and render hidden text with css effect
     this.setState({ sound, effect }, () => {
@@ -49,6 +43,9 @@ class App extends Component {
     this.setState({
       clicked: true
     });
+    const { endpoint } = this.state;
+    const socket = socketIOClient(endpoint);
+    socket.on('FromAPI', data => this.displayAlert(data.text, data.sound, data.duration, data.effect));
   }
 
   render() {
