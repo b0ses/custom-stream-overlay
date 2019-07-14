@@ -44,9 +44,7 @@ class App extends Component {
       clicked: true
     });
     const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint, {
-      transports: ['polling']
-    });
+    const socket = socketIOClient(endpoint);
     socket.on('FromAPI', data => this.displayAlert(data.text, data.sound, data.duration, data.effect));
   }
 
