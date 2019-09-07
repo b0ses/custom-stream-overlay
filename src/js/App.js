@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import socketIOClient from 'socket.io-client';
+import io from 'socket.io-client';
 
 import Soundbite from './Soundbite';
 import Alert from './Alert';
@@ -44,7 +44,7 @@ class App extends Component {
       clicked: true
     });
     const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
+    const socket = io.connect(endpoint);
     socket.on('FromAPI', data => this.displayAlert(data.text, data.sound, data.duration, data.effect));
   }
 
