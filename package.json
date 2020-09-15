@@ -21,7 +21,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.2",
@@ -31,6 +31,9 @@
     "stylelint-config-standard": "^18.3.0",
     "terser": "3.14.1"
   },
+  "presets": [
+    "env"
+  ],
   "browserslist": [
     ">0.2%",
     "not dead",
