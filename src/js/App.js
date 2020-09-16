@@ -59,7 +59,7 @@ class App extends Component {
       return (
         <div>
           <Alert text={text} visibility={visibility} effect={effect} />
-          <Soundbite url={sound} />
+          <Soundbite url={sound} cutoff={kGlobalConstants.CUTOFF} />
         </div>
       );
     }
