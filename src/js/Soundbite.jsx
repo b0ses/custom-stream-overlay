@@ -3,8 +3,21 @@ import Sound from 'react-sound';
 import PropTypes from 'prop-types';
 
 class Soundbite extends Component {
+  constructor() {
+    super();
+
+    this.handleSongPlaying = this.handleSongPlaying.bind(this);
+  }
+
   shouldComponentUpdate(nextProps) {
     return (nextProps.url !== '');
+  }
+
+  handleSongPlaying(status) {
+    const { cutoff } = this.props;
+    if (cutoff > 0 && status.position >= cutoff) {
+      status.stop();
+    }
   }
 
   render() {
@@ -30,11 +43,13 @@ class Soundbite extends Component {
 }
 
 Soundbite.propTypes = {
-  url: PropTypes.string
+  url: PropTypes.string,
+  cutoff: PropTypes.number
 };
 
 Soundbite.defaultProps = {
-  url: ''
+  url: '',
+  cutoff: 0
 };
 
 export default Soundbite;
