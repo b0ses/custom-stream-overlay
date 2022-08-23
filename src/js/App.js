@@ -44,7 +44,10 @@ class App extends Component {
       clicked: true
     });
     const { endpoint } = this.state;
-    const socket = io.connect(endpoint);
+    const socket = io(endpoint, {
+        withCredentials: true,
+      }
+    );
     socket.on('FromAPI', data => this.displayAlert(data.text, data.sound, data.duration, data.effect));
   }
 
