@@ -26,6 +26,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
+    "postcss-normalize": "^10.0.1",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
     "terser": "^5.14.2"
