@@ -10,7 +10,7 @@ class Soundbite extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return (nextProps.url !== '');
+    return true
   }
 
   handleSongPlaying(status) {
@@ -21,19 +21,20 @@ class Soundbite extends Component {
   }
 
   render() {
-    const { url } = this.props;
+    const { url, onLoad, onFinish, play } = this.props;
     return (
       <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" title="bypass-sound">
         { url
           ? (
             <Sound
               url={url}
-              playStatus={Sound.status.PLAYING}
+              autoLoad={true}
+              playStatus={play ? Sound.status.PLAYING : Sound.status.STOPPED}
               volume={100}
               playFromPosition={0 /* in milliseconds */}
-              onLoading={this.handleSongLoading}
+              onLoad={onLoad}
               onPlaying={this.handleSongPlaying}
-              onFinishedPlaying={this.handleSongFinishedPlaying}
+              onFinishedPlaying={onFinish}
             />
           ) : <br />
         }
@@ -44,12 +45,16 @@ class Soundbite extends Component {
 
 Soundbite.propTypes = {
   url: PropTypes.string,
-  cutoff: PropTypes.number
+  cutoff: PropTypes.number,
+  onLoading: PropTypes.func,
+  play: PropTypes.bool
 };
 
 Soundbite.defaultProps = {
   url: '',
-  cutoff: 0
+  cutoff: 0,
+  onLoading: null,
+  play: false,
 };
 
 export default Soundbite;
