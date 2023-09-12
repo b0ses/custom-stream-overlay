@@ -18,41 +18,31 @@ class App extends Component {
       clicked: false,
       soundDuration: null,
       dbDuration: null,
-      play: false
+      play: false,
+      timeout: null
     };
 
     this.start = this.start.bind(this);
     this.onLoad = this.onLoad.bind(this);
-    this.onFinish = this.onFinish.bind(this);
   }
-
 
   onLoad(details){
-    this.setState({ soundDuration: details.duration } );
-    this.displayAlert();
+    this.setState({ soundDuration: details.duration, play: true }, () => {
+      this.displayText();
+    } );
   }
 
-  onFinish(){
-    this.setState({ play: false, visibility: 'hidden' } );
-  }
-
-
-  displayAlert() {
+  displayText() {
     // Play sound and render hidden text with css effect
     // Show text, sound won't repeat
     const { soundDuration, dbDuration } = this.state;
-    const duration = soundDuration || dbDuration || 3000;
+    const duration = dbDuration || soundDuration || 3000;
     this.setState({ visibility: 'visible' }, () => {
       // Hide it after [duration] milliseconds
-      const scopedThis = this;
-      setTimeout(() => {
-        const { play } = this.state;
-        if (!play){
-          scopedThis.setState({
-            visibility: 'hidden'
-          });
-        }
+      const timeout = setTimeout(() => {
+        this.setState({ play: false, visibility: 'hidden' } );
       }, duration);
+      this.setState({ timeout });
     });
   }
 
@@ -66,7 +56,13 @@ class App extends Component {
       withCredentials: true
     });
     socket.on('FromAPI', (data) => {
-      this.setState({ text: data.text, sound: data.sound, dbDuration: data.duration, effect: data.effect, play:true, visibility: 'hidden', soundDuration: null});
+      const { timeout } = this.state;
+      if (timeout)
+        clearTimeout(timeout);
+      this.setState({ text: null, sound: null, dbDuration: 0, effect: data.effect, play: false, visibility: 'hidden', soundDuration: null, timeout: null });
+      this.setState({ text: data.text, sound: data.sound, dbDuration: data.duration, effect: data.effect});
+      if (!data.sound && data.duration)
+        this.displayText();
     });
   }
 
@@ -82,7 +78,7 @@ class App extends Component {
       return (
         <div>
           <Alert text={text} visibility={visibility} effect={effect} />
-          <Soundbite url={sound} play={play} onLoad={this.onLoad} onFinish={this.onFinish} cutoff={kGlobalConstants.CUTOFF} />
+          <Soundbite url={sound} play={play} onLoad={this.onLoad} cutoff={kGlobalConstants.CUTOFF} />
         </div>
       );
     }

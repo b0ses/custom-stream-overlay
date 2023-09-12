@@ -10,7 +10,7 @@ class Soundbite extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return true
+    return (nextProps !== this.props);
   }
 
   handleSongPlaying(status) {
@@ -21,7 +21,7 @@ class Soundbite extends Component {
   }
 
   render() {
-    const { url, onLoad, onFinish, play } = this.props;
+    const { url, onLoad, play } = this.props;
     return (
       <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" title="bypass-sound">
         { url
@@ -34,7 +34,6 @@ class Soundbite extends Component {
               playFromPosition={0 /* in milliseconds */}
               onLoad={onLoad}
               onPlaying={this.handleSongPlaying}
-              onFinishedPlaying={onFinish}
             />
           ) : <br />
         }
