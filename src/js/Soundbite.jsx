@@ -10,7 +10,7 @@ class Soundbite extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return (nextProps !== this.props);
+    return (nextProps.url !== this.props.url || nextProps.play !== this.props.play);
   }
 
   handleSongPlaying(status) {

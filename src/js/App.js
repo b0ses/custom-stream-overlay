@@ -35,12 +35,16 @@ class App extends Component {
   displayText() {
     // Play sound and render hidden text with css effect
     // Show text, sound won't repeat
-    const { soundDuration, dbDuration } = this.state;
-    const duration = dbDuration || soundDuration || 3000;
+    const { soundDuration, dbDuration, effect } = this.state;
+    const fadeDuration = 1000;
+    let duration = (dbDuration || soundDuration || 3000);
+    if (effect === 'fade' && duration > fadeDuration)
+      duration = duration - fadeDuration;
+
     this.setState({ visibility: 'visible' }, () => {
       // Hide it after [duration] milliseconds
       const timeout = setTimeout(() => {
-        this.setState({ play: false, visibility: 'hidden' } );
+        this.setState({ visibility: 'hidden' } );
       }, duration);
       this.setState({ timeout });
     });
