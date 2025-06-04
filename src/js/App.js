@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 
-import Soundbite from './Soundbite';
 import Alert from './Alert';
 
 const kGlobalConstants = require('./Settings').default;
@@ -11,47 +10,35 @@ class App extends Component {
     super();
     this.state = {
       endpoint: `${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}`,
-      text: '',
+      alertText: '',
       visibility: 'hidden',
       effect: '',
-      sound: '',
       clicked: false,
-      soundDuration: null,
-      dbDuration: null,
-      play: false,
-      timeout: null
+      audioElement: new Audio()
     };
 
     this.start = this.start.bind(this);
-    this.onLoad = this.onLoad.bind(this);
   }
 
-  onLoad(details){
-    this.setState({ soundDuration: details.duration, play: true }, () => {
-      this.displayText();
-    } );
-  }
-
-  displayText() {
+  displayText(alertText, soundDuration, effect) {
     // Play sound and render hidden text with css effect
     // Show text, sound won't repeat
-    const { soundDuration, dbDuration, effect } = this.state;
     const fadeDuration = 1000;
-    let duration = (dbDuration || soundDuration || 3000);
-    if (effect === 'fade' && duration > fadeDuration)
-      duration = duration - fadeDuration;
+    let duration = soundDuration;
+    if (effect === 'fade' && soundDuration > fadeDuration){
+      duration = soundDuration - fadeDuration;
+    }
 
-    this.setState({ visibility: 'visible' }, () => {
+    this.setState({ alertText, visibility: 'visible', effect }, () => {
       // Hide it after [duration] milliseconds
       const timeout = setTimeout(() => {
         this.setState({ visibility: 'hidden' } );
       }, duration);
-      this.setState({ timeout });
     });
   }
 
-  start(e) {
-    e.preventDefault();
+  start() {
+    // e.preventDefault();
     this.setState({
       clicked: true
     });
@@ -60,29 +47,33 @@ class App extends Component {
       withCredentials: true
     });
     socket.on('FromAPI', (data) => {
-      const { timeout } = this.state;
-      if (timeout)
+      const { audioElement, timeout } = this.state;
+      audioElement.pause();
+      
+      if (timeout){
         clearTimeout(timeout);
-      this.setState({ text: null, sound: null, dbDuration: 0, effect: data.effect, play: false, visibility: 'hidden', soundDuration: null, timeout: null });
-      this.setState({ text: data.text, sound: data.sound, dbDuration: data.duration, effect: data.effect});
-      if (!data.sound && data.duration)
-        this.displayText();
+      }
+
+      const newAudioElement = new Audio(data.sound);
+      this.setState({ alertText: '', fade: '', effect: '', audioElement: newAudioElement } );
+      newAudioElement.addEventListener('loadeddata', () => {
+        this.displayText(data.text, newAudioElement.duration*1000, data.effect);
+        newAudioElement.play();
+     }, false);
+      
     });
   }
 
   render() {
     const { clicked } = this.state;
-    const { text } = this.state;
+    const { alertText } = this.state;
     const { visibility } = this.state;
     const { effect } = this.state;
-    const { sound } = this.state;
-    const { play } = this.state;
-
+    
     if (clicked) {
       return (
         <div>
-          <Alert text={text} visibility={visibility} effect={effect} />
-          <Soundbite url={sound} play={play} onLoad={this.onLoad} cutoff={kGlobalConstants.CUTOFF} />
+          <Alert text={alertText} visibility={visibility} effect={effect} />
         </div>
       );
     }
