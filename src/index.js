@@ -11,3 +11,5 @@ root.render(
 );
 
 registerServiceWorker();
+
+export default App;
