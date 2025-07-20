@@ -1,6 +1,5 @@
 {
   "name": "custom-stream-overlay",
-  "main": "src/index.js",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -25,8 +24,6 @@
     "node": "=24.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
-    "@babel/preset-react": "^7.27.1",
     "babel-preset-env": "^0.0.0",
     "babel-preset-react": "^6.24.1",
     "eslint-config-airbnb": "^19.0.4",
