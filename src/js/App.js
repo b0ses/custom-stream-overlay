@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 import Alert from './Alert';
 
@@ -18,6 +18,7 @@ class App extends Component {
     };
 
     this.start = this.start.bind(this);
+    this.alert = this.alert.bind(this);
   }
 
   displayText(alertText, soundDuration, effect) {
@@ -37,16 +38,7 @@ class App extends Component {
     });
   }
 
-  start() {
-    // e.preventDefault();
-    this.setState({
-      clicked: true
-    });
-    const { endpoint } = this.state;
-    const socket = io(endpoint, {
-      withCredentials: true
-    });
-    socket.on('FromAPI', (data) => {
+  alert(data) {
       const { audioElement, timeout } = this.state;
       audioElement.pause();
       
@@ -60,7 +52,18 @@ class App extends Component {
         this.displayText(data.text, newAudioElement.duration*1000, data.effect);
         newAudioElement.play();
      }, false);
-      
+  }
+
+  start() {
+    this.setState({
+      clicked: true
+    });
+    const { endpoint } = this.state;
+    const socket = io(`${endpoint}/${kGlobalConstants.NAMESPACE}`, {
+      withCredentials: true
+    });
+    socket.on('FromAPI', (data) => {
+      this.alert(data);
     });
   }
 

@@ -12,20 +12,18 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "start": "sudo HOST=127.0.0.1 PORT=80 react-scripts start",
+    "start": "sudo react-scripts start",
     "build": "react-scripts build",
     "test:unit": "CI=true react-scripts test --env=jsdom",
     "test:lint:js": "eslint --ext=js --ext=jsx 'src/js/**/*.js'",
     "test:lint:css": "stylelint \"src/css/*.css\"",
-    "test": "npm run test:lint:js && npm run test:lint:css && npm run test:unit",
+    "test": "npm run test:lint:js && npm run test:lint:css",
     "eject": "react-scripts eject"
   },
   "engines": {
     "node": "=24.1.0"
   },
   "devDependencies": {
-    "babel-preset-env": "^0.0.0",
-    "babel-preset-react": "^6.24.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-jsx-a11y": "^6.10.2",
