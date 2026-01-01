@@ -49,7 +49,9 @@ class App extends Component {
       const newAudioElement = new Audio(data.sound);
       this.setState({ alertText: '', fade: '', effect: '', audioElement: newAudioElement } );
       newAudioElement.addEventListener('loadeddata', () => {
-        this.displayText(data.text, newAudioElement.duration*1000, data.effect);
+        if (data.text){
+          this.displayText(data.text, newAudioElement.duration*1000, data.effect);
+        }
         newAudioElement.play();
      }, false);
   }
